@@ -30,16 +30,16 @@ MD5_CHECKSUM=$APP_VERSION/${PLUGIN_FILENAME}-${APP_VERSION}.md5sum
 MAPPING_FILE=$APP_VERSION/proguard-${APP_VERSION}.txt
 
 # Upload apk file
-cp $PLUGIN_APK_PATH $APK_FILE
+cp "${PLUGIN_APK_PATH}" $APK_FILE
 s3-upload.sh $APK_FILE $S3_BUCKET $S3_HOST $S3_KEY $S3_SECRET
 
 # Upload md5 checksum for apk file
-md5sum $(readlink -f ${PLUGIN_APK_PATH}) > $MD5_CHECKSUM
+md5sum "${PLUGIN_APK_PATH}" > $MD5_CHECKSUM
 s3-upload.sh $MD5_CHECKSUM $S3_BUCKET $S3_HOST $S3_KEY $S3_SECRET
 
 # Check if mapping file exists
-if [ -f $PLUGIN_MAPPING_PATH ]; then
-    cp $PLUGIN_MAPPING_PATH $MAPPING_FILE
+if [ -f "$PLUGIN_MAPPING_PATH" ]; then
+    cp "${PLUGIN_MAPPING_PATH}" $MAPPING_FILE
     s3-upload.sh $MAPPING_FILE $S3_BUCKET $S3_HOST $S3_KEY $S3_SECRET
 fi
 
